@@ -89,7 +89,7 @@ export default function Workspace() {
         <h1 className="text-2xl font-bold text-slate-900">Verification workspace</h1>
         <p className="text-sm text-slate-600">Generate an answer and verify it, or paste an existing AI response.</p>
       </div>
-      {health && health.nli.status !== 'ok' && health.nli.status !== 'loading' && (
+      {health && ['unavailable', 'disabled'].includes(health.nli.status) && (
         <Alert>NLI model status: {health.nli.status}. {health.nli.detail} Claims with evidence will be marked VERIFICATION_UNAVAILABLE.</Alert>
       )}
       <form onSubmit={submit} className="card space-y-4 p-5" aria-label="Verification form">
