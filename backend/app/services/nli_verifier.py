@@ -112,6 +112,7 @@ class PassageJudgement:
     relevance: float
     novel_relevance: float
     title: str
+    direct: bool = True  # the passage addresses this claim's subject+relation or values (see text_utils)
 
 
 @dataclass
@@ -134,21 +135,39 @@ def passage_label(j: PassageJudgement, s: Settings) -> ClaimStatus:
 
 
 def _contradiction_relevant(j: PassageJudgement, s: Settings) -> bool:
-    # A passage about a different aspect of the same entity often looks "contradictory" to NLI models.
-    # Only count a contradiction if the passage shares content with the claim beyond the article subject.
+    # A passage about a different aspect of the same entity (or a different person with the same surname)
+    # often looks "contradictory" to NLI models. Only count it if it addresses this claim directly and
+    # shares content with the claim beyond the article subject.
+    if not j.direct:
+        return False
     return j.novel_relevance >= s.contradiction_min_relevance or j.relevance >= 0.75
+
+
+def quality(relevance: float) -> float:
+    """Evidence-quality weight q in [0.5, 1]: weakly related evidence halves the weight of an NLI result."""
+    return 0.5 + 0.5 * min(1.0, max(0.0, relevance))
+
+
+def evidence_confidence(prob: float, relevance: float, opposing: float = 0.0) -> float:
+    """Claim confidence (0-100) = NLI probability x evidence quality x (1 - 0.5 x strongest opposing probability).
+
+    This is an evidence-weighted model score, not a calibrated probability that the claim is true.
+    """
+    return round(100 * prob * quality(relevance) * (1 - 0.5 * opposing), 1)
 
 
 def aggregate(judgements: list[PassageJudgement], settings: Settings | None = None) -> ClaimJudgement:
     """Aggregate per-passage NLI results into one claim-level verdict.
 
-    - SUPPORTED if the strongest entailing passage passes the entailment threshold.
-    - CONTRADICTED if the strongest (relevant) contradicting passage passes the contradiction threshold.
-    - If both happen, the evidence conflicts (``conflicting`` is reported): contradiction wins only if it
-      exceeds the best entailment by ``nli_conflict_margin``; entailment wins if it is at least as strong;
-      otherwise the claim is UNVERIFIABLE.
-    - Otherwise (no evidence, or neutral/weak evidence) the claim is UNVERIFIABLE. Missing evidence never
-      makes a claim CONTRADICTED.
+    - Each passage is labelled SUPPORTED (entailment >= threshold), CONTRADICTED (contradiction >= threshold
+      from *direct*, relevant evidence) or UNVERIFIABLE (neutral, weak or off-topic).
+    - The decisive passage for a label is the one with the highest probability x evidence quality, so a
+      directly relevant passage wins over a loosely related one with a marginally higher NLI score.
+    - If both labels occur, the evidence conflicts (``conflicting``): contradiction wins only if it exceeds
+      the best entailment by ``nli_conflict_margin``; entailment wins if it is at least as strong; otherwise
+      the claim is UNVERIFIABLE. Conflicts also lower the confidence.
+    - No evidence, or only neutral/weak/off-topic evidence => UNVERIFIABLE with no confidence value.
+      Missing evidence never makes a claim CONTRADICTED.
     """
     s = settings or get_settings()
     if not judgements:
@@ -156,29 +175,35 @@ def aggregate(judgements: list[PassageJudgement], settings: Settings | None = No
                               "No relevant evidence was found in the configured sources, so the claim could not be "
                               "verified. This does not mean it is false.", [])
     labels = [passage_label(j, s) for j in judgements]
-    sup = [(j.scores.entailment, i) for i, (j, l) in enumerate(zip(judgements, labels)) if l == ClaimStatus.SUPPORTED]
-    con = [(j.scores.contradiction, i) for i, (j, l) in enumerate(zip(judgements, labels)) if l == ClaimStatus.CONTRADICTED]
-    best_sup, best_con = max(sup, default=None), max(con, default=None)
+
+    def best(label: ClaimStatus, attr: str) -> tuple[float, int] | None:
+        idx = [i for i, l in enumerate(labels) if l == label]
+        if not idx:
+            return None
+        i = max(idx, key=lambda k: getattr(judgements[k].scores, attr) * quality(judgements[k].relevance))
+        return getattr(judgements[i].scores, attr), i
+
+    best_sup, best_con = best(ClaimStatus.SUPPORTED, "entailment"), best(ClaimStatus.CONTRADICTED, "contradiction")
     conflicting = bool(best_sup and best_con)
 
     if best_con and (not best_sup or best_con[0] - best_sup[0] >= s.nli_conflict_margin):
         i = best_con[1]
-        msg = (f"Evidence from '{judgements[i].title}' contradicts the claim "
-               f"(contradiction {best_con[0]:.2f}).")
+        msg = (f"Evidence from '{judgements[i].title}' directly contradicts the claim "
+               f"(contradiction {best_con[0]:.2f}, relevance {judgements[i].relevance:.2f}).")
         if conflicting:
             msg += f" However, another passage supports it (entailment {best_sup[0]:.2f}); review both sources."
-        return ClaimJudgement(ClaimStatus.CONTRADICTED, round(best_con[0] * 100, 1), judgements[i].scores, i,
-                              conflicting, msg, labels)
+        conf = evidence_confidence(best_con[0], judgements[i].relevance, best_sup[0] if best_sup else 0.0)
+        return ClaimJudgement(ClaimStatus.CONTRADICTED, conf, judgements[i].scores, i, conflicting, msg, labels)
     if best_sup and (not best_con or best_sup[0] >= best_con[0]):
         # Entailment wins ties: NLI contradiction scores are more prone to false positives when a passage
         # discusses a different aspect of the same subject.
         i = best_sup[1]
         msg = (f"Evidence from '{judgements[i].title}' entails the claim "
-               f"(entailment {best_sup[0]:.2f}).")
+               f"(entailment {best_sup[0]:.2f}, relevance {judgements[i].relevance:.2f}).")
         if conflicting:
             msg += f" However, another passage appears to contradict it (contradiction {best_con[0]:.2f}); review both sources."
-        return ClaimJudgement(ClaimStatus.SUPPORTED, round(best_sup[0] * 100, 1), judgements[i].scores, i,
-                              conflicting, msg, labels)
+        conf = evidence_confidence(best_sup[0], judgements[i].relevance, best_con[0] if best_con else 0.0)
+        return ClaimJudgement(ClaimStatus.SUPPORTED, conf, judgements[i].scores, i, conflicting, msg, labels)
     if conflicting:
         i = best_con[1]
         return ClaimJudgement(ClaimStatus.UNVERIFIABLE, None, judgements[i].scores, i, True,
@@ -186,9 +211,13 @@ def aggregate(judgements: list[PassageJudgement], settings: Settings | None = No
                               f"contradicts it ({best_con[0]:.2f}). The claim is marked unverifiable.", labels)
     i = max(range(len(judgements)), key=lambda k: max(judgements[k].scores.entailment, judgements[k].scores.contradiction))
     top = judgements[i].scores
-    return ClaimJudgement(ClaimStatus.UNVERIFIABLE, round(top.neutral * 100, 1), top, i, False,
-                          f"Retrieved evidence was related but inconclusive (best entailment {top.entailment:.2f}, "
-                          f"contradiction {top.contradiction:.2f}).", labels)
+    off_topic = sum(1 for j in judgements if j.scores.contradiction >= s.nli_contradict_threshold and not j.direct)
+    msg = (f"Retrieved evidence was related but inconclusive (best entailment {top.entailment:.2f}, "
+           f"contradiction {top.contradiction:.2f}).")
+    if off_topic:
+        msg += (f" {off_topic} passage(s) that do not address this claim directly were ignored even though the "
+                "NLI model scored them as contradictory.")
+    return ClaimJudgement(ClaimStatus.UNVERIFIABLE, None, top, i, False, msg, labels)
 
 
 _verifier: NLIVerifier | None = None

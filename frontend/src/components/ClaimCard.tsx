@@ -31,8 +31,11 @@ export default function ClaimCard({ claim, showChanged }: { claim: ClaimResult; 
       </div>
       <p className="mt-2 text-sm text-slate-600">{claim.explanation}</p>
       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
-        <span>
-          Claim confidence: <strong className="text-slate-700">{claim.confidence == null ? 'n/a' : `${claim.confidence.toFixed(1)}%`}</strong>
+        <span title="NLI probability × evidence quality × conflict factor. Not a calibrated probability that the claim is true.">
+          Evidence-weighted confidence: <strong className="text-slate-700">{claim.confidence == null ? 'n/a' : `${claim.confidence.toFixed(1)}%`}</strong>
+        </span>
+        <span title="Raw probability the NLI model assigned to this verdict for the decisive passage.">
+          NLI model probability: <strong className="text-slate-700">{claim.model_confidence == null ? 'n/a' : `${claim.model_confidence.toFixed(1)}%`}</strong>
         </span>
         {claim.nli && <NliBars e={claim.nli.entailment} c={claim.nli.contradiction} n={claim.nli.neutral} />}
         {claim.conflicting_evidence && <span className="font-medium text-amber-700">Sources disagree</span>}

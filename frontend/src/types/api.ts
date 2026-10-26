@@ -23,6 +23,7 @@ export interface ClaimResult {
   entities: Entity[]
   status: ClaimStatus
   confidence: number | null
+  model_confidence: number | null
   nli: NLIScores | null
   explanation: string
   evidence: Evidence[]
@@ -43,6 +44,16 @@ export interface ScoreBreakdown {
 export interface VerificationResult { claims: ClaimResult[]; score: ScoreBreakdown; warnings: string[]; latency_ms: number }
 export interface ProviderInfo { name: string; model: string | null; is_demo: boolean }
 
+export interface EvidenceRef { source_name: string; title: string; url: string }
+
+export interface ClaimChange {
+  original_text: string | null
+  original_status: ClaimStatus | null
+  corrected_text: string | null
+  corrected_status: ClaimStatus | null
+  sources: EvidenceRef[]
+}
+
 export interface CorrectionInfo {
   status: CorrectionStatus
   message: string | null
@@ -50,6 +61,8 @@ export interface CorrectionInfo {
   changed_claims: number
   score_before: number | null
   score_after: number | null
+  changes?: ClaimChange[]
+  unsupported_changed_claims?: number
 }
 
 export interface RunResponse {

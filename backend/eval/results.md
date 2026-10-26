@@ -1,11 +1,11 @@
 # VeriAI evaluation results
 
-Run at 2026-10-26T19:18:18+00:00 on 36 labelled claims (live Wikipedia/Wikidata + MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli).
+Run at 2026-10-26T19:34:24+00:00 on 36 labelled claims (live Wikipedia/Wikidata + MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli).
 
 - Accuracy: **0.889**
 - Macro F1: **0.868**
 - Hallucination (CONTRADICTED) detection — precision 1.0, recall 0.846, F1 0.917
-- Latency per claim — mean 2583 ms, median 2361 ms, max 5986 ms
+- Latency per claim — mean 2180 ms, median 2043 ms, max 6380 ms
 
 | Class | Precision | Recall | F1 | Support |
 |---|---|---|---|---|
@@ -23,16 +23,16 @@ Confusion matrix (rows = gold, columns = predicted):
 
 ## Self-correction (demo provider)
 
-4 of 4 demo answers containing contradicted claims had fewer contradicted claims after correction (success rate 1.0).
+5 of 5 demo answers containing contradicted claims had fewer contradicted claims after correction (success rate 1.0).
 
 | Question | Status | Score before | Score after | Contradicted before → after |
 |---|---|---|---|---|
-| Tell me about the Eiffel Tower. | corrected | 44.3 | 81.0 | 1 → 0 |
-| Who was Albert Einstein? | corrected | 61.7 | 97.4 | 1 → 0 |
-| Describe the Apollo 11 mission. | no_changes | 58.2 | None | 0 → 0 |
-| What is Python? | corrected | 57.7 | 92.9 | 1 → 0 |
-| Tell me about the Great Wall of China. | corrected | 21.1 | 70.0 | 1 → 0 |
-| How tall is Mount Everest? | not_needed | 99.5 | None | 0 → 0 |
+| Tell me about the Eiffel Tower. | corrected | 42.9 | 69.6 | 1 → 0 |
+| Who was Albert Einstein? | corrected | 60.8 | 85.0 | 1 → 0 |
+| Describe the Apollo 11 mission. | corrected | 39.9 | 76.9 | 1 → 0 |
+| What is Python? | corrected | 57.7 | 89.7 | 1 → 0 |
+| Tell me about the Great Wall of China. | corrected | 21.1 | 54.2 | 1 → 0 |
+| How tall is Mount Everest? | not_needed | 85.2 | None | 0 → 0 |
 
 ## Misclassified claims
 

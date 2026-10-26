@@ -3,7 +3,7 @@
 from datetime import datetime
 from enum import Enum
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, computed_field, field_validator
 
 from app.core.config import get_settings
 
@@ -86,12 +86,24 @@ class ClaimResult(BaseModel):
     source_sentence: str | None = None
     entities: list[Entity] = []
     status: ClaimStatus
-    confidence: float | None = Field(default=None, description="Model confidence (0-100) in the assigned status")
+    confidence: float | None = Field(
+        default=None,
+        description="Evidence-weighted confidence (0-100): NLI probability x evidence quality x conflict factor. "
+                    "Not a calibrated probability that the claim is true; null when no verdict was reached.")
     nli: NLIScores | None = None
     explanation: str
     evidence: list[Evidence] = []
     conflicting_evidence: bool = False
     changed_in_correction: bool = False
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def model_confidence(self) -> float | None:
+        """Raw NLI probability (0-100) of the assigned label from the decisive passage."""
+        if self.nli is None or self.status not in (ClaimStatus.SUPPORTED, ClaimStatus.CONTRADICTED):
+            return None
+        p = self.nli.entailment if self.status == ClaimStatus.SUPPORTED else self.nli.contradiction
+        return round(100 * p, 1)
 
 
 class StatusCounts(BaseModel):
@@ -123,6 +135,21 @@ class ProviderInfo(BaseModel):
     is_demo: bool
 
 
+class EvidenceRef(BaseModel):
+    source_name: str
+    title: str
+    url: str
+
+
+class ClaimChange(BaseModel):
+    """One claim rewritten (or removed/added) by correction, with its re-verified status and citations."""
+    original_text: str | None = None
+    original_status: ClaimStatus | None = None
+    corrected_text: str | None = None
+    corrected_status: ClaimStatus | None = None
+    sources: list[EvidenceRef] = []
+
+
 class CorrectionInfo(BaseModel):
     status: CorrectionStatus = CorrectionStatus.NOT_REQUESTED
     message: str | None = None
@@ -130,6 +157,8 @@ class CorrectionInfo(BaseModel):
     changed_claims: int = 0
     score_before: float | None = None
     score_after: float | None = None
+    changes: list[ClaimChange] = []
+    unsupported_changed_claims: int = 0
 
 
 class RunResponse(BaseModel):

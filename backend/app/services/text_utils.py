@@ -89,3 +89,49 @@ def split_sentences(text: str) -> list[str]:
         return []
     parts = re.split(r"(?<=[.!?])\s+(?=[A-Z0-9\"'(])", text)
     return [p.strip() for p in parts if p.strip()]
+
+
+_PRONOUN_START_RE = re.compile(r"^(he|she|it|they|his|her|its|their)\b", re.IGNORECASE)
+_LEADING_NAME_RE = re.compile(r"^((?:The\s+)?(?:[A-Z][\w'.-]*\s+)*[A-Z][\w'.-]*)")
+
+
+def stems(text: str) -> set[str]:
+    return {_stem(t) for t in content_tokens(text)}
+
+
+def leading_subject(claim: str) -> str | None:
+    """The capitalised name a claim starts with ("Einstein died ..." -> "Einstein"), if any."""
+    m = _LEADING_NAME_RE.match(claim.strip())
+    return m.group(1) if m else None
+
+
+def predicate_stems(claim: str, subject_terms: list[str], value_terms: list[str]) -> set[str]:
+    """Claim words that are neither the subject nor a value ("died", "designed"): they select the relation."""
+    return stems(claim) - stems(" ".join(subject_terms + value_terms))
+
+
+def sentence_about_subject(sentence: str, subject_terms: list[str], title: str | None = None) -> bool:
+    """True if the sentence's grammatical lead is the subject (or a pronoun standing for the page subject)."""
+    s = re.sub(r"^(the|a|an)\s+", "", sentence.strip(), flags=re.IGNORECASE)
+    if _PRONOUN_START_RE.match(s):
+        return True
+    first = tokens(s)[:1]
+    return bool(first) and _stem(first[0]) in stems(" ".join(subject_terms + ([title] if title else [])))
+
+
+def is_direct_evidence(claim: str, subject_terms: list[str], value_terms: list[str], title: str,
+                       snippet: str) -> bool:
+    """Whether a passage speaks to *this* claim rather than to another aspect of the same subject.
+
+    Direct if it mentions one of the claim's values (place, date, person ...), or if one of its sentences
+    is about the subject and uses the claim's predicate ("Albert Einstein died in Princeton.").
+    A passage like "Margot Einstein ... (she died in 1986)" is not direct evidence for "Einstein died in
+    London in 1955": it shares the predicate but is about someone else and mentions none of the values.
+    """
+    if stems(" ".join(value_terms)) & stems(snippet):
+        return True
+    preds = predicate_stems(claim, subject_terms, value_terms)
+    for sentence in split_sentences(snippet):
+        if (not preds or preds & stems(sentence)) and sentence_about_subject(sentence, subject_terms, title):
+            return True
+    return False

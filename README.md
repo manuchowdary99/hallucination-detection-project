@@ -123,18 +123,31 @@ curl -s -X POST localhost:8000/api/verify -H 'Content-Type: application/json' \
   ("Albert Einstein died in Princeton."). Retrieved text is sanitised, capped, wrapped in delimiters and
   treated strictly as data; instruction-like text is flagged with a warning.
 * **NLI** – each (evidence, claim) pair gets entailment / contradiction / neutral probabilities.
-  Entailment ≥ threshold from relevant evidence ⇒ `SUPPORTED`. Contradiction ≥ threshold from sufficiently
-  relevant evidence that exceeds the best entailment by a margin ⇒ `CONTRADICTED`. Anything else, including
-  no evidence ⇒ `UNVERIFIABLE`; disagreeing sources are flagged.
+  Entailment ≥ threshold from relevant evidence ⇒ `SUPPORTED`. Contradiction ≥ threshold counts only from
+  *direct* evidence: a passage that mentions one of the claim's values, or has a sentence about the claim's
+  subject using the claim's relation (`text_utils.is_direct_evidence`). A passage about someone else, e.g.
+  "Margot Einstein ... (she died in 1986)" for "Einstein died in London", is ignored even if NLI calls it a
+  contradiction. The decisive passage is the one with the highest probability × evidence quality. Anything
+  else, including no evidence ⇒ `UNVERIFIABLE`; disagreeing sources are flagged.
+* **Claim confidence** – `confidence = 100 · p · q · (1 − 0.5·o)`, where `p` is the NLI probability of the
+  verdict, `q = 0.5 + 0.5·relevance` and `o` is the strongest opposing probability (conflicting evidence).
+  `model_confidence` is the raw NLI probability. Neither is a calibrated probability that the claim is true.
+  `UNVERIFIABLE` claims have no confidence.
 * **Reliability score** (heuristic, not a calibrated probability):
 
-  `score = 100 × clamp(Σ_supported(entailment·q)/N + 0.25·U/N − 0.5·Σ_contradicted(contradiction·q)/N, 0, 1)`
-  with `q = 0.5 + 0.5·relevance`, `N` claims and `U` unverifiable claims. No claims ⇒ "No factual claims";
-  no decidable claim ⇒ "Insufficient evidence" (score `null`).
-* **Correction** – the OpenAI-compatible provider receives the answer, the flagged claims and delimited
-  evidence, with instructions to change only those claims and use only the evidence. The demo provider
-  replaces each contradicted sentence with the best-matching evidence sentence. The result is fully
-  re-verified and claims that changed are marked.
+  `score = 100 × clamp(Σ_supported a/N + 0.25·U/N − 0.5·Σ_contradicted a/N, 0, 1)` with `a = confidence/100`,
+  `N` classified claims and `U` unverifiable claims. No claims ⇒ "No factual claims"; no decidable claim ⇒
+  "Insufficient evidence" (score `null`).
+* **Correction** – the claim's non-subject values (place, date, person …) are split into values that the
+  relevant evidence confirms and values it does not. The demo provider replaces only the unconfirmed values
+  with a value of the same type quoted from evidence about the same subject and relation. For example,
+  "He died in London in 1955." becomes "He died in Princeton in 1955.". If that is not possible, it falls back
+  to quoting the best evidence sentence. The OpenAI-compatible provider gets the same keep/check hints and
+  delimited evidence.
+* **Re-verification** – the corrected answer runs through retrieval and NLI again. A rewritten claim counts as
+  fixed only if that fresh evidence supports it. `correction.changes` lists each before → after pair with its
+  new status and citations. `correction.unsupported_changed_claims` counts rewritten or added claims that are not
+  supported, and these are flagged in the UI.
 
 ## Tests and evaluation
 
@@ -148,7 +161,10 @@ cd frontend && npm test && npm run lint && npm run build
 The offline suite covers supported / contradicted / unverifiable claims, multiple claims, no claims,
 malformed and oversized input, missing API keys, provider failures, retrieval timeouts and rate limits,
 prompt-injection text in evidence, NLI unavailability, correction and re-verification, persistence, history
-and stats endpoints. See [`backend/eval/results.md`](backend/eval/results.md) for the latest measured
+and stats endpoints. `tests/test_correction.py` adds regression tests for: fixing a wrong location while keeping
+a correct date, fixing a wrong date while keeping a correct location, conflicting evidence, irrelevant passages,
+no useful evidence, corrections that add an unsupported claim, and NLI or knowledge-source failure during
+re-verification. See [`backend/eval/results.md`](backend/eval/results.md) for the latest measured
 evaluation numbers.
 
 ## Limitations

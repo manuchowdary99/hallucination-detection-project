@@ -16,7 +16,7 @@ from app.schemas.verification import (
 )
 from app.services.claim_extractor import ClaimExtractor, ExtractedClaim, get_claim_extractor
 from app.services.confidence_scorer import score_claims
-from app.services.correction_service import correct_answer, mark_changes
+from app.services.correction_service import build_changes, correct_answer, mark_changes
 from app.services.knowledge_retriever import (
     EvidencePassage,
     KnowledgeRetriever,
@@ -25,6 +25,7 @@ from app.services.knowledge_retriever import (
 )
 from app.services.llm_provider import LLMProvider, LLMProviderError
 from app.services.nli_verifier import NLIUnavailable, NLIVerifier, PassageJudgement, aggregate, get_nli_verifier
+from app.services.text_utils import is_direct_evidence, leading_subject
 
 
 def provider_info(p: LLMProvider) -> ProviderInfo:
@@ -90,7 +91,14 @@ class VerificationPipeline:
             return ClaimResult(**base, status=ClaimStatus.VERIFICATION_UNAVAILABLE, evidence=evidence,
                                explanation="Evidence was retrieved but the NLI model was unavailable, so the claim "
                                            "was not classified.")
-        judgements = [PassageJudgement(s, p.relevance, p.novel_relevance, p.title) for s, p in zip(scores or [], passages)]
+        subject_terms = [t for t in (c.subject, leading_subject(c.text)) if t]
+        head = c.text.lower().removeprefix("the ")
+        value_terms = [e["text"] for e in c.entities if not head.startswith(e["text"].lower().removeprefix("the "))]
+        judgements = [
+            PassageJudgement(s, p.relevance, p.novel_relevance, p.title,
+                             direct=is_direct_evidence(c.text, subject_terms, value_terms, p.title, p.snippet))
+            for s, p in zip(scores or [], passages)
+        ]
         verdict = aggregate(judgements, self.settings)
         for ev, s, label in zip(evidence, scores or [], verdict.passage_labels):
             ev.nli, ev.label = s, label
@@ -121,11 +129,19 @@ class VerificationPipeline:
             return info, answer, None
         corrected = await self.verify_text(revised)
         info.changed_claims = mark_changes(original.claims, corrected.claims)
+        info.changes = build_changes(original.claims, corrected.claims)
+        # A rewritten claim counts as fixed only if re-verification against retrieved evidence supports it;
+        # text produced by the correction provider is never trusted on its own.
+        info.unsupported_changed_claims = sum(
+            c.changed_in_correction and c.status != ClaimStatus.SUPPORTED for c in corrected.claims)
         info.status = CorrectionStatus.CORRECTED
         info.score_after = corrected.score.score
         remaining = sum(c.status != ClaimStatus.SUPPORTED for c in corrected.claims)
         info.message = (f"Revised {n_issues} flagged claim(s) and re-verified the result"
                         + (f"; {remaining} claim(s) are still not supported." if remaining else "."))
+        if info.unsupported_changed_claims:
+            info.message += (f" {info.unsupported_changed_claims} rewritten or added claim(s) are not supported by "
+                             "retrieved evidence and should not be trusted.")
         if provider.is_demo:
             info.message += " Demo provider: extractive correction quoting retrieved evidence."
         return info, revised, corrected

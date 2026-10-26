@@ -28,8 +28,10 @@ def test_supported_claim(client):
     claim = run["original_verification"]["claims"][0]
     assert claim["status"] == "SUPPORTED"
     assert claim["evidence"][0]["url"].startswith("https://en.wikipedia.org/wiki/")
-    assert claim["nli"]["entailment"] > 0.9 and claim["confidence"] > 90
-    assert run["original_verification"]["score"]["score"] > 75
+    assert claim["nli"]["entailment"] > 0.9 and claim["model_confidence"] == 97.0
+    # evidence-weighted confidence = model probability x evidence quality (never above the raw probability)
+    assert 48.5 <= claim["confidence"] <= claim["model_confidence"]
+    assert run["original_verification"]["score"]["score"] == claim["confidence"]
 
 
 def test_contradicted_claim(client):

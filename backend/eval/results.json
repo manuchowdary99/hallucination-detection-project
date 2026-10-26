@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-10-26T19:18:18+00:00",
+  "run_at": "2026-10-26T19:34:24+00:00",
   "nli_model": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
   "n_claims": 36,
   "metrics": {
@@ -52,9 +52,9 @@
     }
   },
   "latency_ms": {
-    "mean": 2583,
-    "median": 2361,
-    "max": 5986
+    "mean": 2180,
+    "median": 2043,
+    "max": 6380
   },
   "claims": [
     {
@@ -62,8 +62,8 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.6,
-      "explanation": "Evidence from 'Eiffel Tower' entails the claim (entailment 1.00).",
-      "latency_ms": 2397,
+      "explanation": "Evidence from 'Eiffel Tower' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 3453,
       "warnings": []
     },
     {
@@ -71,26 +71,26 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.9,
-      "explanation": "Evidence from 'Eiffel Tower' entails the claim (entailment 1.00).",
-      "latency_ms": 1167,
+      "explanation": "Evidence from 'Eiffel Tower' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 1959,
       "warnings": []
     },
     {
       "text": "The Eiffel Tower was designed by Thomas Edison.",
       "gold": "CONTRADICTED",
       "pred": "CONTRADICTED",
-      "confidence": 99.9,
-      "explanation": "Evidence from 'Eiffel Tower' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 1491,
+      "confidence": 94.1,
+      "explanation": "Evidence from 'Eiffel Tower' directly contradicts the claim (contradiction 1.00, relevance 0.89).",
+      "latency_ms": 2391,
       "warnings": []
     },
     {
       "text": "The Eiffel Tower is located in Berlin.",
       "gold": "CONTRADICTED",
       "pred": "CONTRADICTED",
-      "confidence": 99.9,
-      "explanation": "Evidence from 'Eiffel Tower' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 1742,
+      "confidence": 95.6,
+      "explanation": "Evidence from 'Eiffel Tower' directly contradicts the claim (contradiction 0.96, relevance 1.00).",
+      "latency_ms": 2747,
       "warnings": []
     },
     {
@@ -98,8 +98,8 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.8,
-      "explanation": "Evidence from 'Albert Einstein' entails the claim (entailment 1.00).",
-      "latency_ms": 1731,
+      "explanation": "Evidence from 'Albert Einstein' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 6380,
       "warnings": []
     },
     {
@@ -107,26 +107,26 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.4,
-      "explanation": "Evidence from 'Albert Einstein' entails the claim (entailment 0.99).",
-      "latency_ms": 1150,
+      "explanation": "Evidence from 'Albert Einstein' entails the claim (entailment 0.99, relevance 1.00).",
+      "latency_ms": 2177,
       "warnings": []
     },
     {
       "text": "Albert Einstein died in London in 1955.",
       "gold": "CONTRADICTED",
       "pred": "CONTRADICTED",
-      "confidence": 99.5,
-      "explanation": "Evidence from 'Albert Einstein' contradicts the claim (contradiction 0.99).",
-      "latency_ms": 1320,
+      "confidence": 94.3,
+      "explanation": "Evidence from 'Albert Einstein' directly contradicts the claim (contradiction 1.00, relevance 0.89).",
+      "latency_ms": 1975,
       "warnings": []
     },
     {
       "text": "Albert Einstein was born in Paris.",
       "gold": "CONTRADICTED",
       "pred": "CONTRADICTED",
-      "confidence": 99.9,
-      "explanation": "Evidence from 'Albert Einstein' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 1145,
+      "confidence": 92.8,
+      "explanation": "Evidence from 'Albert Einstein' directly contradicts the claim (contradiction 1.00, relevance 0.86).",
+      "latency_ms": 2107,
       "warnings": []
     },
     {
@@ -134,8 +134,8 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.9,
-      "explanation": "Evidence from 'Apollo 11' entails the claim (entailment 1.00).",
-      "latency_ms": 5000,
+      "explanation": "Evidence from 'Apollo 11' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 2177,
       "warnings": []
     },
     {
@@ -143,17 +143,17 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.7,
-      "explanation": "Evidence from 'Neil Armstrong' entails the claim (entailment 1.00).",
-      "latency_ms": 3861,
+      "explanation": "Evidence from 'Neil Armstrong' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 1552,
       "warnings": []
     },
     {
       "text": "Apollo 11 landed on the Moon in 1975.",
       "gold": "CONTRADICTED",
       "pred": "CONTRADICTED",
-      "confidence": 99.9,
-      "explanation": "Evidence from 'Apollo 11' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 927,
+      "confidence": 88.8,
+      "explanation": "Evidence from 'Apollo 11' directly contradicts the claim (contradiction 1.00, relevance 0.78).",
+      "latency_ms": 1166,
       "warnings": []
     },
     {
@@ -161,8 +161,8 @@
       "gold": "CONTRADICTED",
       "pred": "CONTRADICTED",
       "confidence": 99.9,
-      "explanation": "Evidence from 'Buzz Aldrin' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 4704,
+      "explanation": "Evidence from 'Buzz Aldrin' directly contradicts the claim (contradiction 1.00, relevance 1.00).",
+      "latency_ms": 2054,
       "warnings": []
     },
     {
@@ -170,17 +170,17 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.8,
-      "explanation": "Evidence from 'Outline of the Python programming language' entails the claim (entailment 1.00).",
-      "latency_ms": 4530,
+      "explanation": "Evidence from 'Outline of the Python programming language' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 1667,
       "warnings": []
     },
     {
       "text": "Python was created by James Gosling.",
       "gold": "CONTRADICTED",
       "pred": "UNVERIFIABLE",
-      "confidence": 4.9,
+      "confidence": null,
       "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.95).",
-      "latency_ms": 1985,
+      "latency_ms": 1318,
       "warnings": []
     },
     {
@@ -188,17 +188,17 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.6,
-      "explanation": "Evidence from 'Mount Everest' entails the claim (entailment 1.00).",
-      "latency_ms": 1642,
+      "explanation": "Evidence from 'Mount Everest' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 2828,
       "warnings": []
     },
     {
       "text": "Mount Everest is located in the Andes.",
       "gold": "CONTRADICTED",
       "pred": "CONTRADICTED",
-      "confidence": 99.8,
-      "explanation": "Evidence from 'Mount Everest' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 4840,
+      "confidence": 92.7,
+      "explanation": "Evidence from 'Mount Everest' directly contradicts the claim (contradiction 1.00, relevance 0.86).",
+      "latency_ms": 1903,
       "warnings": []
     },
     {
@@ -206,8 +206,8 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.5,
-      "explanation": "Evidence from 'Great Wall of China' entails the claim (entailment 1.00).",
-      "latency_ms": 3842,
+      "explanation": "Evidence from 'Great Wall of China' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 2511,
       "warnings": []
     },
     {
@@ -215,8 +215,8 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.7,
-      "explanation": "Evidence from 'Marie Curie' entails the claim (entailment 1.00).",
-      "latency_ms": 2347,
+      "explanation": "Evidence from 'Marie Curie' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 2068,
       "warnings": []
     },
     {
@@ -224,17 +224,17 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.7,
-      "explanation": "Evidence from 'Marie Curie' entails the claim (entailment 1.00).",
-      "latency_ms": 3812,
+      "explanation": "Evidence from 'Marie Curie' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 2032,
       "warnings": []
     },
     {
       "text": "Marie Curie was born in Madrid.",
       "gold": "CONTRADICTED",
       "pred": "CONTRADICTED",
-      "confidence": 99.9,
-      "explanation": "Evidence from 'Marie Curie' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 956,
+      "confidence": 92.8,
+      "explanation": "Evidence from 'Marie Curie' directly contradicts the claim (contradiction 1.00, relevance 0.86).",
+      "latency_ms": 2715,
       "warnings": []
     },
     {
@@ -243,7 +243,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": null,
       "explanation": "Sources disagree: one passage entails the claim (1.00) and another contradicts it (1.00). The claim is marked unverifiable.",
-      "latency_ms": 5986,
+      "latency_ms": 2414,
       "warnings": []
     },
     {
@@ -251,8 +251,8 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.9,
-      "explanation": "Evidence from 'William Shakespeare' entails the claim (entailment 1.00).",
-      "latency_ms": 4356,
+      "explanation": "Evidence from 'William Shakespeare' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 2378,
       "warnings": []
     },
     {
@@ -260,8 +260,8 @@
       "gold": "CONTRADICTED",
       "pred": "CONTRADICTED",
       "confidence": 98.4,
-      "explanation": "Evidence from 'Elizabeth Dickens' contradicts the claim (contradiction 0.98).",
-      "latency_ms": 2374,
+      "explanation": "Evidence from 'Elizabeth Dickens' directly contradicts the claim (contradiction 0.98, relevance 1.00).",
+      "latency_ms": 3610,
       "warnings": []
     },
     {
@@ -269,8 +269,8 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.9,
-      "explanation": "Evidence from 'Amazon River' entails the claim (entailment 1.00).",
-      "latency_ms": 2444,
+      "explanation": "Evidence from 'Amazon River' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 2004,
       "warnings": []
     },
     {
@@ -278,17 +278,17 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.4,
-      "explanation": "Evidence from 'Canberra' entails the claim (entailment 0.99).",
-      "latency_ms": 3076,
+      "explanation": "Evidence from 'Canberra' entails the claim (entailment 0.99, relevance 1.00).",
+      "latency_ms": 1745,
       "warnings": []
     },
     {
       "text": "Sydney is the capital of Australia.",
       "gold": "CONTRADICTED",
       "pred": "CONTRADICTED",
-      "confidence": 99.2,
-      "explanation": "Evidence from 'Sydney' contradicts the claim (contradiction 0.99). However, another passage supports it (entailment 0.82); review both sources.",
-      "latency_ms": 4666,
+      "confidence": 58.3,
+      "explanation": "Evidence from 'Sydney' directly contradicts the claim (contradiction 0.99, relevance 1.00). However, another passage supports it (entailment 0.82); review both sources.",
+      "latency_ms": 2174,
       "warnings": []
     },
     {
@@ -296,17 +296,17 @@
       "gold": "SUPPORTED",
       "pred": "SUPPORTED",
       "confidence": 99.8,
-      "explanation": "Evidence from 'Leonardo da Vinci' entails the claim (entailment 1.00).",
-      "latency_ms": 4128,
+      "explanation": "Evidence from 'Leonardo da Vinci' entails the claim (entailment 1.00, relevance 1.00).",
+      "latency_ms": 5842,
       "warnings": []
     },
     {
       "text": "Vincent van Gogh painted the Mona Lisa.",
       "gold": "CONTRADICTED",
       "pred": "CONTRADICTED",
-      "confidence": 65.1,
-      "explanation": "Evidence from 'Vincent van Gogh' contradicts the claim (contradiction 0.65).",
-      "latency_ms": 2097,
+      "confidence": 59.2,
+      "explanation": "Evidence from 'Vincent van Gogh' directly contradicts the claim (contradiction 0.65, relevance 0.82).",
+      "latency_ms": 3988,
       "warnings": []
     },
     {
@@ -315,7 +315,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": null,
       "explanation": "No claim extracted.",
-      "latency_ms": 6,
+      "latency_ms": 5,
       "warnings": [
         "No verifiable factual claims were detected in the response."
       ]
@@ -326,7 +326,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": null,
       "explanation": "No claim extracted.",
-      "latency_ms": 5,
+      "latency_ms": 7,
       "warnings": [
         "No verifiable factual claims were detected in the response."
       ]
@@ -335,45 +335,45 @@
       "text": "Albert Einstein owned a pet parrot named Quantum.",
       "gold": "UNVERIFIABLE",
       "pred": "UNVERIFIABLE",
-      "confidence": 99.1,
+      "confidence": null,
       "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.01).",
-      "latency_ms": 1055,
+      "latency_ms": 1085,
       "warnings": []
     },
     {
       "text": "Gustave Eiffel ate breakfast at the Caf\u00e9 Lumi\u00e8re every Tuesday in 1887.",
       "gold": "UNVERIFIABLE",
       "pred": "UNVERIFIABLE",
-      "confidence": 99.6,
-      "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.00).",
-      "latency_ms": 1125,
+      "confidence": null,
+      "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.12).",
+      "latency_ms": 1123,
       "warnings": []
     },
     {
       "text": "Neil Armstrong carried a blue pebble from Ohio to the Moon.",
       "gold": "UNVERIFIABLE",
       "pred": "UNVERIFIABLE",
-      "confidence": 86.1,
+      "confidence": null,
       "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.14).",
-      "latency_ms": 3375,
+      "latency_ms": 1220,
       "warnings": []
     },
     {
       "text": "Guido van Rossum wrote the first Python prototype on a Sunday afternoon in Haarlem.",
       "gold": "UNVERIFIABLE",
       "pred": "UNVERIFIABLE",
-      "confidence": 99.5,
+      "confidence": null,
       "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.00).",
-      "latency_ms": 2802,
+      "latency_ms": 2020,
       "warnings": []
     },
     {
       "text": "Marie Curie's favourite flower was the yellow tulip.",
       "gold": "UNVERIFIABLE",
       "pred": "UNVERIFIABLE",
-      "confidence": 99.4,
+      "confidence": null,
       "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.00).",
-      "latency_ms": 4512,
+      "latency_ms": 1236,
       "warnings": []
     },
     {
@@ -382,7 +382,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": null,
       "explanation": "No relevant evidence was found in the configured sources, so the claim could not be verified. This does not mean it is false.",
-      "latency_ms": 380,
+      "latency_ms": 432,
       "warnings": []
     }
   ],
@@ -392,32 +392,32 @@
       {
         "question": "Tell me about the Eiffel Tower.",
         "status": "corrected",
-        "score_before": 44.3,
-        "score_after": 81.0,
+        "score_before": 42.9,
+        "score_after": 69.6,
         "contradicted_before": 1,
         "contradicted_after": 0
       },
       {
         "question": "Who was Albert Einstein?",
         "status": "corrected",
-        "score_before": 61.7,
-        "score_after": 97.4,
+        "score_before": 60.8,
+        "score_after": 85.0,
         "contradicted_before": 1,
         "contradicted_after": 0
       },
       {
         "question": "Describe the Apollo 11 mission.",
-        "status": "no_changes",
-        "score_before": 58.2,
-        "score_after": null,
-        "contradicted_before": 0,
+        "status": "corrected",
+        "score_before": 39.9,
+        "score_after": 76.9,
+        "contradicted_before": 1,
         "contradicted_after": 0
       },
       {
         "question": "What is Python?",
         "status": "corrected",
         "score_before": 57.7,
-        "score_after": 92.9,
+        "score_after": 89.7,
         "contradicted_before": 1,
         "contradicted_after": 0
       },
@@ -425,21 +425,21 @@
         "question": "Tell me about the Great Wall of China.",
         "status": "corrected",
         "score_before": 21.1,
-        "score_after": 70.0,
+        "score_after": 54.2,
         "contradicted_before": 1,
         "contradicted_after": 0
       },
       {
         "question": "How tall is Mount Everest?",
         "status": "not_needed",
-        "score_before": 99.5,
+        "score_before": 85.2,
         "score_after": null,
         "contradicted_before": 0,
         "contradicted_after": 0
       }
     ],
-    "answers_with_contradictions": 4,
-    "answers_with_fewer_contradictions_after_correction": 4,
+    "answers_with_contradictions": 5,
+    "answers_with_fewer_contradictions_after_correction": 5,
     "correction_success_rate": 1.0
   }
 }

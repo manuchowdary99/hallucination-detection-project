@@ -301,6 +301,9 @@ class WikidataProvider(KnowledgeProvider):
             vals = grouped.setdefault(prop, [])
             if value not in vals and len(vals) < 6:
                 vals.append(value)
+        for verb, place, date in (("was born", "place of birth", "date of birth"), ("died", "place of death", "date of death")):
+            if len(grouped.get(place, [])) == 1 and len(grouped.get(date, [])) == 1:
+                statements.append(f"{label} {verb} in {grouped[place][0]} on {grouped[date][0]}.")
         for prop, vals in grouped.items():
             template = PROPERTY_TEMPLATES.get(prop)
             joined = ", ".join(vals) if template is None or len(vals) == 1 else " or ".join(vals)

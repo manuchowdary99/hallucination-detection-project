@@ -83,6 +83,7 @@ async def test_wikidata_statements():
     assert "Albert Einstein was born in Ulm." in snippets
     assert all(p.url == "https://www.wikidata.org/wiki/Q937" for p in passages)
     assert "Albert Einstein was born on 14 March 1879." in snippets
+    assert "Albert Einstein was born in Ulm on 14 March 1879." in snippets
 
 
 async def test_empty_search_results():

@@ -1,8 +1,8 @@
-import { Bot, Wand2 } from 'lucide-react'
-import type { RunResponse, VerificationResult } from '../types/api'
+import { ArrowRight, Bot, ExternalLink, Wand2 } from 'lucide-react'
+import type { ClaimChange, RunResponse, VerificationResult } from '../types/api'
 import ClaimCard from './ClaimCard'
 import ScoreCard from './ScoreCard'
-import { Alert, Spinner } from './ui'
+import { Alert, Spinner, StatusBadge } from './ui'
 import { fmtMs } from './format'
 
 function Claims({ result, showChanged }: { result: VerificationResult; showChanged?: boolean }) {
@@ -13,6 +13,42 @@ function Claims({ result, showChanged }: { result: VerificationResult; showChang
       {result.claims.map((c) => (
         <ClaimCard key={c.index + c.text} claim={c} showChanged={showChanged} />
       ))}
+    </div>
+  )
+}
+
+function Changes({ changes }: { changes: ClaimChange[] }) {
+  return (
+    <div className="card p-4" data-testid="correction-changes">
+      <h3 className="text-sm font-medium text-slate-500">What changed (each rewritten claim was re-verified)</h3>
+      <ul className="mt-2 space-y-3">
+        {changes.map((ch, i) => (
+          <li key={i} className="text-sm">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className={ch.original_text ? 'text-slate-500 line-through' : 'italic text-slate-400'}>
+                {ch.original_text ?? 'new claim'}
+              </span>
+              {ch.original_status && <StatusBadge status={ch.original_status} />}
+              <ArrowRight className="h-4 w-4 text-slate-400" aria-hidden />
+              <span className={ch.corrected_text ? 'font-medium text-slate-900' : 'italic text-slate-400'}>
+                {ch.corrected_text ?? 'removed'}
+              </span>
+              {ch.corrected_status && <StatusBadge status={ch.corrected_status} />}
+            </div>
+            {ch.sources.length > 0 ? (
+              <div className="mt-1 flex flex-wrap gap-3 text-xs">
+                {ch.sources.map((s) => (
+                  <a key={s.url + s.title} href={s.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-indigo-700 hover:underline">
+                    {s.source_name}: {s.title} <ExternalLink className="h-3 w-3" aria-hidden />
+                  </a>
+                ))}
+              </div>
+            ) : ch.corrected_text ? (
+              <p className="mt-1 text-xs text-amber-700">No retrieved evidence supports this rewritten claim.</p>
+            ) : null}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
@@ -75,6 +111,14 @@ export default function RunView({ run, onCorrect, correcting }: Props) {
           )}
         </Alert>
       )}
+
+      {!!run.correction.unsupported_changed_claims && (
+        <Alert>
+          {run.correction.unsupported_changed_claims} rewritten or added claim(s) are not supported by retrieved evidence. Treat them as unverified.
+        </Alert>
+      )}
+
+      {corrected && run.correction.changes && run.correction.changes.length > 0 && <Changes changes={run.correction.changes} />}
 
       {onCorrect && canCorrect && (
         <div className="flex items-center gap-3">

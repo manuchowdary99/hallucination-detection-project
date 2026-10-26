@@ -16,9 +16,9 @@ const run: RunResponse = {
   original_verification: {
     latency_ms: 10, warnings: [], score: score(48, 1, 1),
     claims: [
-      { index: 0, text: 'The Eiffel Tower is in Paris.', source_sentence: null, entities: [], status: 'SUPPORTED', confidence: 97, nli: { entailment: 0.97, contradiction: 0.01, neutral: 0.02 }, explanation: 'Entailed by Wikipedia.', conflicting_evidence: false, changed_in_correction: false,
+      { index: 0, text: 'The Eiffel Tower is in Paris.', source_sentence: null, entities: [], status: 'SUPPORTED', confidence: 92, model_confidence: 97, nli: { entailment: 0.97, contradiction: 0.01, neutral: 0.02 }, explanation: 'Entailed by Wikipedia.', conflicting_evidence: false, changed_in_correction: false,
         evidence: [{ source_name: 'Wikipedia', title: 'Eiffel Tower', url: 'https://en.wikipedia.org/wiki/Eiffel_Tower', snippet: 'The Eiffel Tower is in Paris.', retrieved_at: null, relevance: 0.9, nli: null, label: 'SUPPORTED' }] },
-      { index: 1, text: 'The Eiffel Tower was completed in 1925.', source_sentence: null, entities: [], status: 'CONTRADICTED', confidence: 95, nli: null, explanation: 'Contradicted: completed in 1889.', conflicting_evidence: false, changed_in_correction: false, evidence: [] },
+      { index: 1, text: 'The Eiffel Tower was completed in 1925.', source_sentence: null, entities: [], status: 'CONTRADICTED', confidence: 90, model_confidence: null, nli: null, explanation: 'Contradicted: completed in 1889.', conflicting_evidence: false, changed_in_correction: false, evidence: [] },
     ],
   },
   corrected_verification: null,
