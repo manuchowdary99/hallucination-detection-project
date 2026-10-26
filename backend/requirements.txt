@@ -1,0 +1,15 @@
+# Install CPU-only torch first to avoid a multi-GB CUDA download:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.1
+pydantic-settings==2.15.0
+python-dotenv==1.2.4
+SQLAlchemy==2.0.55
+httpx==0.28.1
+spacy==3.8.17
+transformers==4.57.6
+torch>=2.2
+sentencepiece==0.2.2
+protobuf>=4.25
+numpy>=1.26
