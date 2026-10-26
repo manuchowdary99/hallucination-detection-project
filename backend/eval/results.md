@@ -1,11 +1,11 @@
 # VeriAI evaluation results
 
-Run at 2026-10-26T19:14:01+00:00 on 36 labelled claims (live Wikipedia/Wikidata + MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli).
+Run at 2026-10-26T19:18:18+00:00 on 36 labelled claims (live Wikipedia/Wikidata + MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli).
 
 - Accuracy: **0.889**
 - Macro F1: **0.868**
 - Hallucination (CONTRADICTED) detection — precision 1.0, recall 0.846, F1 0.917
-- Latency per claim — mean 3364 ms, median 3499 ms, max 7072 ms
+- Latency per claim — mean 2583 ms, median 2361 ms, max 5986 ms
 
 | Class | Precision | Recall | F1 | Support |
 |---|---|---|---|---|
@@ -28,10 +28,10 @@ Confusion matrix (rows = gold, columns = predicted):
 | Question | Status | Score before | Score after | Contradicted before → after |
 |---|---|---|---|---|
 | Tell me about the Eiffel Tower. | corrected | 44.3 | 81.0 | 1 → 0 |
-| Who was Albert Einstein? | corrected | 61.7 | 96.9 | 1 → 0 |
+| Who was Albert Einstein? | corrected | 61.7 | 97.4 | 1 → 0 |
 | Describe the Apollo 11 mission. | no_changes | 58.2 | None | 0 → 0 |
 | What is Python? | corrected | 57.7 | 92.9 | 1 → 0 |
-| Tell me about the Great Wall of China. | corrected | 21.0 | 69.9 | 1 → 0 |
+| Tell me about the Great Wall of China. | corrected | 21.1 | 70.0 | 1 → 0 |
 | How tall is Mount Everest? | not_needed | 99.5 | None | 0 → 0 |
 
 ## Misclassified claims

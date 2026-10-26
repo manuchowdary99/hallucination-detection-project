@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-10-26T19:14:01+00:00",
+  "run_at": "2026-10-26T19:18:18+00:00",
   "nli_model": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
   "n_claims": 36,
   "metrics": {
@@ -52,9 +52,9 @@
     }
   },
   "latency_ms": {
-    "mean": 3364,
-    "median": 3499,
-    "max": 7072
+    "mean": 2583,
+    "median": 2361,
+    "max": 5986
   },
   "claims": [
     {
@@ -63,7 +63,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.6,
       "explanation": "Evidence from 'Eiffel Tower' entails the claim (entailment 1.00).",
-      "latency_ms": 3049,
+      "latency_ms": 2397,
       "warnings": []
     },
     {
@@ -72,7 +72,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.9,
       "explanation": "Evidence from 'Eiffel Tower' entails the claim (entailment 1.00).",
-      "latency_ms": 1333,
+      "latency_ms": 1167,
       "warnings": []
     },
     {
@@ -81,7 +81,7 @@
       "pred": "CONTRADICTED",
       "confidence": 99.9,
       "explanation": "Evidence from 'Eiffel Tower' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 3041,
+      "latency_ms": 1491,
       "warnings": []
     },
     {
@@ -90,7 +90,7 @@
       "pred": "CONTRADICTED",
       "confidence": 99.9,
       "explanation": "Evidence from 'Eiffel Tower' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 1798,
+      "latency_ms": 1742,
       "warnings": []
     },
     {
@@ -99,7 +99,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.8,
       "explanation": "Evidence from 'Albert Einstein' entails the claim (entailment 1.00).",
-      "latency_ms": 5955,
+      "latency_ms": 1731,
       "warnings": []
     },
     {
@@ -108,7 +108,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.4,
       "explanation": "Evidence from 'Albert Einstein' entails the claim (entailment 0.99).",
-      "latency_ms": 1171,
+      "latency_ms": 1150,
       "warnings": []
     },
     {
@@ -117,7 +117,7 @@
       "pred": "CONTRADICTED",
       "confidence": 99.5,
       "explanation": "Evidence from 'Albert Einstein' contradicts the claim (contradiction 0.99).",
-      "latency_ms": 5781,
+      "latency_ms": 1320,
       "warnings": []
     },
     {
@@ -126,7 +126,7 @@
       "pred": "CONTRADICTED",
       "confidence": 99.9,
       "explanation": "Evidence from 'Albert Einstein' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 1143,
+      "latency_ms": 1145,
       "warnings": []
     },
     {
@@ -135,7 +135,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.9,
       "explanation": "Evidence from 'Apollo 11' entails the claim (entailment 1.00).",
-      "latency_ms": 4847,
+      "latency_ms": 5000,
       "warnings": []
     },
     {
@@ -144,7 +144,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.7,
       "explanation": "Evidence from 'Neil Armstrong' entails the claim (entailment 1.00).",
-      "latency_ms": 7072,
+      "latency_ms": 3861,
       "warnings": []
     },
     {
@@ -153,7 +153,7 @@
       "pred": "CONTRADICTED",
       "confidence": 99.9,
       "explanation": "Evidence from 'Apollo 11' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 1404,
+      "latency_ms": 927,
       "warnings": []
     },
     {
@@ -162,7 +162,7 @@
       "pred": "CONTRADICTED",
       "confidence": 99.9,
       "explanation": "Evidence from 'Buzz Aldrin' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 3503,
+      "latency_ms": 4704,
       "warnings": []
     },
     {
@@ -171,7 +171,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.8,
       "explanation": "Evidence from 'Outline of the Python programming language' entails the claim (entailment 1.00).",
-      "latency_ms": 4374,
+      "latency_ms": 4530,
       "warnings": []
     },
     {
@@ -180,7 +180,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": 4.9,
       "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.95).",
-      "latency_ms": 2594,
+      "latency_ms": 1985,
       "warnings": []
     },
     {
@@ -189,7 +189,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.6,
       "explanation": "Evidence from 'Mount Everest' entails the claim (entailment 1.00).",
-      "latency_ms": 6127,
+      "latency_ms": 1642,
       "warnings": []
     },
     {
@@ -198,7 +198,7 @@
       "pred": "CONTRADICTED",
       "confidence": 99.8,
       "explanation": "Evidence from 'Mount Everest' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 3039,
+      "latency_ms": 4840,
       "warnings": []
     },
     {
@@ -207,7 +207,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.5,
       "explanation": "Evidence from 'Great Wall of China' entails the claim (entailment 1.00).",
-      "latency_ms": 1984,
+      "latency_ms": 3842,
       "warnings": []
     },
     {
@@ -216,7 +216,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.7,
       "explanation": "Evidence from 'Marie Curie' entails the claim (entailment 1.00).",
-      "latency_ms": 1695,
+      "latency_ms": 2347,
       "warnings": []
     },
     {
@@ -225,7 +225,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.7,
       "explanation": "Evidence from 'Marie Curie' entails the claim (entailment 1.00).",
-      "latency_ms": 4420,
+      "latency_ms": 3812,
       "warnings": []
     },
     {
@@ -234,7 +234,7 @@
       "pred": "CONTRADICTED",
       "confidence": 99.9,
       "explanation": "Evidence from 'Marie Curie' contradicts the claim (contradiction 1.00).",
-      "latency_ms": 1157,
+      "latency_ms": 956,
       "warnings": []
     },
     {
@@ -243,7 +243,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": null,
       "explanation": "Sources disagree: one passage entails the claim (1.00) and another contradicts it (1.00). The claim is marked unverifiable.",
-      "latency_ms": 5603,
+      "latency_ms": 5986,
       "warnings": []
     },
     {
@@ -252,7 +252,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.9,
       "explanation": "Evidence from 'William Shakespeare' entails the claim (entailment 1.00).",
-      "latency_ms": 5846,
+      "latency_ms": 4356,
       "warnings": []
     },
     {
@@ -261,7 +261,7 @@
       "pred": "CONTRADICTED",
       "confidence": 98.4,
       "explanation": "Evidence from 'Elizabeth Dickens' contradicts the claim (contradiction 0.98).",
-      "latency_ms": 5111,
+      "latency_ms": 2374,
       "warnings": []
     },
     {
@@ -270,7 +270,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.9,
       "explanation": "Evidence from 'Amazon River' entails the claim (entailment 1.00).",
-      "latency_ms": 5376,
+      "latency_ms": 2444,
       "warnings": []
     },
     {
@@ -279,7 +279,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.4,
       "explanation": "Evidence from 'Canberra' entails the claim (entailment 0.99).",
-      "latency_ms": 4543,
+      "latency_ms": 3076,
       "warnings": []
     },
     {
@@ -288,7 +288,7 @@
       "pred": "CONTRADICTED",
       "confidence": 99.2,
       "explanation": "Evidence from 'Sydney' contradicts the claim (contradiction 0.99). However, another passage supports it (entailment 0.82); review both sources.",
-      "latency_ms": 2233,
+      "latency_ms": 4666,
       "warnings": []
     },
     {
@@ -297,7 +297,7 @@
       "pred": "SUPPORTED",
       "confidence": 99.8,
       "explanation": "Evidence from 'Leonardo da Vinci' entails the claim (entailment 1.00).",
-      "latency_ms": 4973,
+      "latency_ms": 4128,
       "warnings": []
     },
     {
@@ -306,7 +306,7 @@
       "pred": "CONTRADICTED",
       "confidence": 65.1,
       "explanation": "Evidence from 'Vincent van Gogh' contradicts the claim (contradiction 0.65).",
-      "latency_ms": 3779,
+      "latency_ms": 2097,
       "warnings": []
     },
     {
@@ -315,7 +315,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": null,
       "explanation": "No claim extracted.",
-      "latency_ms": 5,
+      "latency_ms": 6,
       "warnings": [
         "No verifiable factual claims were detected in the response."
       ]
@@ -326,7 +326,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": null,
       "explanation": "No claim extracted.",
-      "latency_ms": 4,
+      "latency_ms": 5,
       "warnings": [
         "No verifiable factual claims were detected in the response."
       ]
@@ -337,16 +337,16 @@
       "pred": "UNVERIFIABLE",
       "confidence": 99.1,
       "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.01).",
-      "latency_ms": 1063,
+      "latency_ms": 1055,
       "warnings": []
     },
     {
       "text": "Gustave Eiffel ate breakfast at the Caf\u00e9 Lumi\u00e8re every Tuesday in 1887.",
       "gold": "UNVERIFIABLE",
       "pred": "UNVERIFIABLE",
-      "confidence": 99.7,
+      "confidence": 99.6,
       "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.00).",
-      "latency_ms": 3555,
+      "latency_ms": 1125,
       "warnings": []
     },
     {
@@ -355,7 +355,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": 86.1,
       "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.14).",
-      "latency_ms": 3496,
+      "latency_ms": 3375,
       "warnings": []
     },
     {
@@ -364,7 +364,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": 99.5,
       "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.00).",
-      "latency_ms": 4465,
+      "latency_ms": 2802,
       "warnings": []
     },
     {
@@ -373,7 +373,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": 99.4,
       "explanation": "Retrieved evidence was related but inconclusive (best entailment 0.00, contradiction 0.00).",
-      "latency_ms": 5194,
+      "latency_ms": 4512,
       "warnings": []
     },
     {
@@ -382,7 +382,7 @@
       "pred": "UNVERIFIABLE",
       "confidence": null,
       "explanation": "No relevant evidence was found in the configured sources, so the claim could not be verified. This does not mean it is false.",
-      "latency_ms": 379,
+      "latency_ms": 380,
       "warnings": []
     }
   ],
@@ -401,7 +401,7 @@
         "question": "Who was Albert Einstein?",
         "status": "corrected",
         "score_before": 61.7,
-        "score_after": 96.9,
+        "score_after": 97.4,
         "contradicted_before": 1,
         "contradicted_after": 0
       },
@@ -424,8 +424,8 @@
       {
         "question": "Tell me about the Great Wall of China.",
         "status": "corrected",
-        "score_before": 21.0,
-        "score_after": 69.9,
+        "score_before": 21.1,
+        "score_after": 70.0,
         "contradicted_before": 1,
         "contradicted_after": 0
       },

@@ -313,6 +313,7 @@ class WikidataProvider(KnowledgeProvider):
         for p in passages:
             if predicate and relevance(predicate, p.snippet) > 0:
                 p.relevance = round(max(p.relevance, 0.5 + 0.5 * p.relevance), 4)
+                p.novel_relevance = round(max(p.novel_relevance, 0.5 + 0.5 * p.novel_relevance), 4)
         passages.sort(key=lambda p: p.relevance, reverse=True)
         return passages[:4]
 
